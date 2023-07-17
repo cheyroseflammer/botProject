@@ -4,6 +4,8 @@ This is a Python program utilizing Selenium WebDriver to automate the process yo
 
 ## Method Breakdown
 
+---
+
 **.land_first_page()**
 
 it should:
@@ -34,6 +36,8 @@ it should:
 
 ![land first page gif](booking/public/land_first_page.gif)
 
+---
+
 **.change_currency()**
 
 it should:
@@ -61,6 +65,8 @@ it should:
                 text.click()
 
 ```
+
+---
 
 **.select_location()**
 it should:
