@@ -72,6 +72,8 @@ it should:
 
 ```
 
+![change currency gif](booking/public/change_currency.gif)
+
 ---
 
 ### **.select_location()**
