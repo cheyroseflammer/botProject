@@ -8,6 +8,7 @@ with Booking() as bot:
     bot.change_currency("USD")
     bot.select_location("Paris")
     bot.select_dates("2023-07-16", "2023-08-16")
-    # bot.select_occupants(4)
+    bot.select_occupants(4)
+    bot.click_search()
     time.sleep(20)
     print("Exiting...")

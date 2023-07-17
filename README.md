@@ -6,7 +6,7 @@ This is a Python program utilizing Selenium WebDriver to automate the process yo
 
 ---
 
-**.land_first_page()**
+### **.land_first_page()**
 
 it should:
 
@@ -38,37 +38,44 @@ it should:
 
 ---
 
-**.change_currency()**
+### **.change_currency()**
 
 it should:
 
 - click on currency selection modal ☑️
 - click on currency given in parameter ⛔
   - <span style="color:red">ERROR:</span> complied style sheets makes it difficult to filter currencies by name.
+    - solved with try except block ☑️
 
 ```
     # change website currency for universal
     def change_currency(self, currency):
-        # grabbing currency modal element
+        # grabbing currency element
         currencyElement = self.find_element(
             By.CSS_SELECTOR, '[css_selector]'
         )
-        # click on currency modal
+        # click on currenct element
         currencyElement.click()
         # Selecting span by filtering out by span based on currency param
         currencyText = self.find_elements(By.CLASS_NAME, "[class_name]")
-        # loop through all currencies
-        for text in currencyText:
-            # if one matches the currency param
-            if text.text == currency:
-            # click on it
-                text.click()
+        # try and see if texts match
+        try:
+            # loop through currenecy text
+            for text in currencyText:
+                # if one matches our currency param
+                if text.text == currency:
+                    # click on that text
+                    text.click()
+        # if a double element is found after going stale continue program
+        except:
+            print("Second element located: continuing...")
 
 ```
 
 ---
 
-**.select_location()**
+### **.select_location()**
+
 it should:
 
 - Type in location given in the paramater ☑️
@@ -77,20 +84,126 @@ it should:
 ```
     # select location
     def select_location(self, location):
-        # grab search field element
-        search_field = self.find_element(By.NAME, "[name]")
+        # find search field element
+        searchField = self.find_element(By.NAME, "[name]")
         # clear it best practice
-        search_field.clear()
-        # send location given in parameter
-        search_field.send_keys(location)
-        # wait before clicking on first item so it can load
-        time.sleep(2)
-        # grab first result element
-        first_result = wait.until(
+        searchField.clear()
+        # send place
+        searchField.send_keys(location)
+        # wait for element generation before clicking on first item
+        time.sleep(0.5)
+        # grab the first result element
+        firstResult = wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, "[class_name]"))
         )
-        # click result
-        first_result.click()
+        # click on element
+        firstResult.click()
 ```
 
 ![select location gif](booking/public/select_location.gif)
+
+---
+
+### **.select_dates()**
+
+it should:
+
+- change the data value of the check in element & select ☑️
+- change the data value of the check out element & select ☑️
+  - edge case: needs pagination functionality for selecting months in advance 🚧
+
+```
+# select dates
+    def select_dates(self, check_in, check_out):
+        # find check in element
+        checkInEl = wait.until(
+            # when present sent check in date value
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, f'span[data-date="{check_in}"]')
+            )
+        )
+        # click check in element
+        checkInEl.click()
+        # find check out element
+        checkOutEl = wait.until(
+            EC.presence_of_element_located(
+                # when present sent check out date value
+                (By.CSS_SELECTOR, f'span[data-date="{check_out}"]')
+            )
+        )
+        # click check out element
+        checkOutEl.click()
+```
+
+![select dates gif](booking/public/select_dates.gif)
+
+---
+
+### **.select_occupants()**
+
+it should:
+
+- click on occupants selection modal ☑️
+- click decrease button until adults count is 1 ☑️
+- click increase count until adults == param count - 1 ☑️
+
+```
+    # select occupants count
+    def select_occupants(self, adults):
+        # find selection element
+        selectionTab = self.find_element(
+            By.CSS_SELECTOR, '[css_selector]'
+        )
+        # click on selection element
+        selectionTab.click()
+        # find the adults section
+        adultSelection = self.find_element(By.ID, "[id]")
+        # decrease to starting point
+        while True:
+            # find decrease button
+            decreaseBtn = self.find_element(
+                By.CLASS_NAME,
+                "[class_name]",
+            )
+            # click on decrease button
+            decreaseBtn.click()
+            countSpan = self.find_element(By.ID, "[id]")
+            # gives elements adult count value
+            adultsVal = countSpan.get_attribute("value")
+            # if value of adults = 1, then break
+            if int(adultsVal) == 1:
+                break
+        # wait before increasing to avoid hanging
+        time.sleep(0.5)
+        # find increase button element
+        increaseBtn = self.find_element(
+            By.XPATH,
+            "[xpath]",
+        )
+        # increase param count minus 1
+        for i in range(adults - 1):
+            # click
+            increaseBtn.click()
+```
+
+![select occupants gif](booking/public/select_occupants.gif)
+
+### **.click_search()**
+
+it should:
+
+- click the search button
+
+```
+    # search deals
+    def click_search(self):
+        # find search button element
+        searchBtn = self.find_element(
+            By.CLASS_NAME,
+            "[class_name]",
+        )
+        # click search button
+        searchBtn.click()
+```
+
+![click search gif](booking/public/click_search.gif)

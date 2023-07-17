@@ -31,108 +31,138 @@ class Booking(webdriver.Chrome):
 
     # open website
     def land_first_page(self):
+        # open webiste
         self.get(const.BASE_URL)
-        # close popup
+        # try and check for popup
         try:
+            # if there is the presence of a popup
             if wait.until(
                 EC.presence_of_element_located(
                     # element filtration
                     (By.CLASS_NAME, "e5aa33035e"),
                 )
             ):
+                # find the close button of popup
                 closeBtn = self.find_element(
                     By.CLASS_NAME,
                     "fc63351294.a822bdf511.e3c025e003.fa565176a8.f7db01295e.c334e6f658.ae1678b153",
                 )
+                # click on popup
                 closeBtn.click()
-                time.sleep(1)
+        # if there is no popup continute executing code
         except:
             print("No popup: continuing..")
 
-    ########### DEBUG STALE ERROR LATER ##############
     # change website currency for universal
     def change_currency(self, currency):
         # grabbing currency element
         currencyElement = self.find_element(
             By.CSS_SELECTOR, 'button[data-testid="header-currency-picker-trigger"]'
         )
+        # click on currenct element
         currencyElement.click()
         # Selecting span by filtering out by span based on currency param
         currencyText = self.find_elements(By.CLASS_NAME, "ea1163d21f")
+        # try and see if texts match
         try:
+            # loop through currenecy text
             for text in currencyText:
+                # if one matches our currency param
                 if text.text == currency:
+                    # click on that text
                     text.click()
+        # if a double element is found after going stale continue program
         except:
             print("Second element located: continuing...")
 
     # select location
     def select_location(self, location):
-        search_field = self.find_element(By.NAME, "ss")
+        # find search field element
+        searchField = self.find_element(By.NAME, "ss")
         # clear it best practice
-        search_field.clear()
+        searchField.clear()
         # send place
-        search_field.send_keys(location)
-        # wait before clicking on first item
-        time.sleep(1)
-        first_result = wait.until(
+        searchField.send_keys(location)
+        # wait for element generation before clicking on first item
+        time.sleep(0.5)
+        # grab the first result element
+        firstResult = wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, "a80e7dc237"))
         )
-        first_result.click()
+        # click on element
+        firstResult.click()
 
-    ####### have to automate range selection for months in advance ########
     # select dates
     def select_dates(self, check_in, check_out):
+        # find check in element
         checkInEl = wait.until(
+            # when present sent check in date value
             EC.presence_of_element_located(
                 (By.CSS_SELECTOR, f'span[data-date="{check_in}"]')
             )
         )
+        # click check in element
         checkInEl.click()
+        # find check out element
         checkOutEl = wait.until(
             EC.presence_of_element_located(
+                # when present sent check out date value
                 (By.CSS_SELECTOR, f'span[data-date="{check_out}"]')
             )
         )
+        # click check out element
         checkOutEl.click()
 
     # select occupants count
     def select_occupants(self, adults):
+        # find selection element
         selectionTab = self.find_element(
             By.CSS_SELECTOR, 'button[data-testid="occupancy-config"]'
         )
+        # click on selection element
         selectionTab.click()
+        # find the adults section
         adultSelection = self.find_element(By.ID, "group_adults")
         # decrease to starting point
-
         while True:
+            # find decrease button
             decreaseBtn = self.find_element(
                 By.CLASS_NAME,
                 "fc63351294.a822bdf511.e3c025e003.fa565176a8.f7db01295e.c334e6f658.e1b7cfea84.cd7aa7c891",
             )
+            # click on decrease button
             decreaseBtn.click()
-            # if value of adults = 1, then break
             countSpan = self.find_element(By.ID, "group_adults")
-            # gives back adult count
+            # gives elements adult count value
             adultsVal = countSpan.get_attribute("value")
+            # if value of adults = 1, then break
             if int(adultsVal) == 1:
                 break
+        # wait before increasing to avoid hanging
         time.sleep(0.5)
+        # find increase button element
         increaseBtn = self.find_element(
-            By.XPATH,
-            "/html/body/div[2]/div[2]/div/div/form/div[1]/div[3]/div/div/div/div/div[1]/div[2]/button[2]",
+            By.CLASS_NAME,
+            "fc63351294.a822bdf511.e3c025e003.fa565176a8.f7db01295e.c334e6f658.e1b7cfea84.d64a4ea64d",
         )
+        # increase param count minus 1
         for i in range(adults - 1):
+            # click
             increaseBtn.click()
-        # CHILD (NEEDS MORE  INFO COMMENT OUT)
-        increaseBtnTwo = self.find_element(
-            By.XPATH,
-            "/html/body/div[2]/div[2]/div/div/form/div[1]/div[3]/div/div/div/div/div[2]/div[2]/button[2]",
+        # select done button
+        doneBtn = self.find_element(
+            By.CLASS_NAME,
+            "fc63351294.a822bdf511.e2b4ffd73d.f7db01295e.c938084447.a9a04704ee.d285d0ebe9",
         )
-        # CHILD AGE
-        # childSelection = self.find_element(By.ID, "group_children")
-        # for i in range(children):
-        #     increaseBtnTwo.click()
+        # click done button
+        doneBtn.click()
 
+    # search deals
     def click_search(self):
-        print("Hello")
+        # find search button element
+        searchBtn = self.find_element(
+            By.CLASS_NAME,
+            "fc63351294.a822bdf511.d4b6b7a9e7.cfb238afa1.c938084447.f4605622ad.aa11d0d5cd",
+        )
+        # click search button
+        searchBtn.click()
