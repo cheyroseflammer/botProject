@@ -1,6 +1,6 @@
-# Vacation Booking Automated Sctipt 🤖
+# Vacation Booking Automated Script 🤖
 
-This is a Python program utilizing Selenium WebDriver to automate the process you would take in order to book a vacation on the Booking.com website. Following Object Oriented Programming principles the Booking class is created and instatiated [here](run.py) as "bot", multiple methods were then created and called on "bot"; methods found [here](booking/booking.py).
+This is a Python program utilizing Selenium WebDriver to automate the process you would take in order to book a vacation on the Booking.com website. Following Object Oriented Programming principles the Booking class is created and instantiated [here](run.py) as "bot", multiple methods were then created and called on "bot"; methods found [here](booking/booking.py).
 
 ## Method Breakdown
 
@@ -16,7 +16,7 @@ it should:
         # open URL
         self.get(const.BASE_URL)
         # close popup
-        # make sure a presence of a pop up is located
+        # make sure a presence of a popup is located
         if wait.until(
             EC.presence_of_element_located(
                 # element filtration
@@ -65,7 +65,7 @@ it should:
 **.select_location()**
 it should:
 
-- Type in location given in paramater ☑️
+- Type in location given in the paramater ☑️
 - Select the first result in the list ☑️
 
 ```
