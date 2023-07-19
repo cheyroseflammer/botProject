@@ -5,6 +5,7 @@ from selenium.webdriver import ChromeOptions, Chrome
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import booking.constants as const
+from booking.booking_filtration import BookingFiltration
 import time
 import os
 
@@ -84,7 +85,7 @@ class Booking(webdriver.Chrome):
         # send place
         searchField.send_keys(location)
         # wait for element generation before clicking on first item
-        time.sleep(0.5)
+        time.sleep(1)
         # grab the first result element
         firstResult = wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, "a80e7dc237"))
@@ -166,3 +167,9 @@ class Booking(webdriver.Chrome):
         )
         # click search button
         searchBtn.click()
+
+    # make new filtrations class to organize functionally
+    def apply_filtrations(self):
+        filtration = BookingFiltration(driver=self)
+        filtration.apply_star_rating(3, 4, 5)
+        filtration.sort_by_lowest()

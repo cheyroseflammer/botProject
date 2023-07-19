@@ -2,7 +2,7 @@
 
 This is a Python program utilizing Selenium WebDriver to automate the process you would take in order to book a vacation on the Booking.com website. Following Object Oriented Programming principles the Booking class is created and instantiated [here](run.py) as "bot", multiple methods were then created and called on "bot"; methods found [here](booking/booking.py).
 
-## Method Breakdown
+## Deal Searching Method Breakdown
 
 ---
 
@@ -13,7 +13,7 @@ it should:
 - open up the Booking.com website ☑️
 - close the "Genius" popup ☑️
 
-```
+```python
     def land_first_page(self):
         # open URL
         self.get(const.BASE_URL)
@@ -47,7 +47,7 @@ it should:
   - <span style="color:red">ERROR:</span> complied style sheets makes it difficult to filter currencies by name.
     - solved with try except block ☑️
 
-```
+```python
     # change website currency for universal
     def change_currency(self, currency):
         # grabbing currency element
@@ -83,7 +83,7 @@ it should:
 - Type in location given in the paramater ☑️
 - Select the first result in the list ☑️
 
-```
+```python
     # select location
     def select_location(self, location):
         # find search field element
@@ -110,11 +110,11 @@ it should:
 
 it should:
 
-- change the data value of the check in element & select ☑️
-- change the data value of the check out element & select ☑️
+- change the data value of check in element to parameter & select ☑️
+- change the data value of check out element to parameter & select ☑️
   - edge case: needs pagination functionality for selecting months in advance 🚧
 
-```
+```python
 # select dates
     def select_dates(self, check_in, check_out):
         # find check in element
@@ -149,7 +149,7 @@ it should:
 - click decrease button until adults count is 1 ☑️
 - click increase count until adults == param count - 1 ☑️
 
-```
+```python
     # select occupants count
     def select_occupants(self, adults):
         # find selection element
@@ -196,7 +196,7 @@ it should:
 
 - click the search button
 
-```
+```python
     # search deals
     def click_search(self):
         # find search button element
